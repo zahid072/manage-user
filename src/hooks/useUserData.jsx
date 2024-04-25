@@ -1,12 +1,18 @@
-import React from 'react'
+import { useEffect, useState } from 'react';
 
 const useUserData = () => {
-    
-  return (
-    <div>
-      
-    </div>
-  )
-}
+  const [userData, setUserData] = useState(null);
 
-export default useUserData
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetch("http://localhost:5000/users2");
+      const data = await response.json();
+      setUserData(data);
+    };
+    fetchData();
+  }, []);
+
+  return {userData};
+};
+
+export default useUserData;
