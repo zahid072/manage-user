@@ -1,9 +1,27 @@
 import React from "react";
 import useUserData from "../../hooks/useUserData";
-import { MdModeEdit } from "react-icons/md";
+import { MdDelete, MdModeEdit } from "react-icons/md";
 
 const UsersList = () => {
-  const { userData } = useUserData();
+  const { userData, setReFatch } = useUserData();
+  
+
+  const handleEdit = (id)=>{
+    console.log("Edit", id)
+  }
+  const handleDelete = (id)=>{
+    
+   console.log("delete", id)
+   fetch(`http://localhost:5000/users2/${id}`, {
+      method: 'DELETE'
+    })
+    .then(response => response.json())
+    .then(data =>{
+      console.log(data)
+      setReFatch(true)
+    })
+    
+  }
 
   return (
     <div>
@@ -28,10 +46,16 @@ const UsersList = () => {
                 <td>{user?.gender}</td>
                 <td>{user?.status}</td>
                 <td className="flex items-center gap-4">
-                  <button className="text-2xl btn">
+                  <button onClick={()=>{
+                    handleEdit(user?._id)
+                  }} className="text-2xl btn">
                     <MdModeEdit />
                   </button>
-                  <button className="text-2xl btn">x</button>
+                  <button onClick={()=>{
+                    handleDelete(user?._id)
+                  }} className="text-2xl btn text-red-500">
+                    <MdDelete />
+                  </button>
                 </td>
               </tr>
             ))}
